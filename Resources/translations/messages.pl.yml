@@ -1,0 +1,13 @@
+media:
+    form:
+        title: Upuść plik lub kliknij aby wgrać.
+        remove_file: Usuń plik
+        error:
+            max_size: Zbyt duży rozmiar pliku
+            max_size_content: 'Maksymalny rozmiar: %max_size%MB'
+            invalid_mime_type: Niepoprawny format pliku
+            invalid_mime_type_content: 'Akceptowalne formaty: %mime_types%'
+    validation:
+        image_type: Typ mime zdjęcia jest niepoprawny (%type%).
+        image_size: Maksymalny rozmiar zdjęcia to %max_size% bajtów.
+        image_dimension: Wymiary zdjęcią są niepoprawne - wymagany jest rozmiar %min_width%x%min_height%

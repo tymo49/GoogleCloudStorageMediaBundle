@@ -1,0 +1,13 @@
+media:
+    form:
+        title: Drop file here or click to upload.
+        remove_file: Remove file
+        error:
+            max_size: Max size reached
+            max_size_content: 'Max size: %max_size%MB'
+            invalid_mime_type: Invalid type for file
+            invalid_mime_type_content: 'Accepted types: %mime_types%'
+    validation:
+        image_type: Image mime type (%type%) is not valid.
+        image_size: Upload file can not be bigger than %max_size% bytes.
+        image_dimension: Incorect dimensions. Width must be lower than %max_width% and greater than %min_width%. Height must be lower than %max_height% and greater than %min_height%

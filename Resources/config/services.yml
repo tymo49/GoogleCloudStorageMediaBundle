@@ -1,0 +1,30 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    AppVerk\MediaBundle\:
+        resource: '../../*'
+        exclude: '../../{Entity,Repository,Tests}'
+
+    AppVerk\MediaBundle\Doctrine\MediaManager:
+        arguments:
+            $className: '%media.entities.media_class%'
+
+    AppVerk\MediaBundle\Service\MediaProvider:
+        arguments:
+            $targetDirectory: '%media.media_web_path%'
+
+    AppVerk\MediaBundle\Service\MediaValidation:
+        arguments: ['%media.max_file_size%', '%media.allowed_mime_types%', '%media.groups%']
+
+    AppVerk\MediaBundle\Service\MediaUploader:
+        arguments:
+            $targetDirectory: '%media.media_root_dir%'
+
+    AppVerk\MediaBundle\Doctrine\MediaManagerInterface: '@AppVerk\MediaBundle\Doctrine\MediaManager'
+
+    AppVerk\MediaBundle\Form\DataTransformer\MediaTransformer:
+        arguments:
+            $className: '%media.entities.media_class%'

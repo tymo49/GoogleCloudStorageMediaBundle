@@ -1,0 +1,21 @@
+{
+    "name": "app-verk/media-bundle",
+    "description": "AppVerk media bundle",
+    "type": "symfony-bundle",
+    "autoload": {
+        "psr-4": {
+          "AppVerk\\MediaBundle\\": ""
+        }
+    },
+    "authors": [
+        {
+            "name": "Michał Kurcewicz",
+            "email": "michal.kurcewicz@appverk.com"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^7.0",
+        "app-verk/components": "^2.0"
+    }
+}
