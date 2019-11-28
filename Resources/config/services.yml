@@ -10,24 +10,24 @@ services:
 
     AppVerk\GoogleCloudStorageMediaBundle\Doctrine\MediaManager:
         arguments:
-            $className: '%media.entities.media_class%'
+            $className: '%google_cloud_storage_media.entities.media_class%'
 
     AppVerk\GoogleCloudStorageMediaBundle\Service\MediaProvider:
         arguments:
-            $targetDirectory: '%media.media_web_path%'
+            $targetDirectory: '%google_cloud_storage_media.media_web_path%'
 
     AppVerk\GoogleCloudStorageMediaBundle\Service\MediaValidation:
-        arguments: ['%media.max_file_size%', '%media.allowed_mime_types%', '%media.groups%']
+        arguments: ['%google_cloud_storage_media.max_file_size%', '%google_cloud_storage_media.allowed_mime_types%', '%google_cloud_storage_media.groups%']
 
     AppVerk\GoogleCloudStorageMediaBundle\Service\Storage:
-        arguments: ['%media.gcs.project_id%', '%media.gcs.bucket_id%']
+        arguments: ['%google_cloud_storage_media.gcs.project_id%', '%google_cloud_storage_media.gcs.bucket_id%']
 
     AppVerk\GoogleCloudStorageMediaBundle\Service\MediaUploader:
         arguments:
-            $targetDirectory: '%media.media_root_dir%'
+            $targetDirectory: '%google_cloud_storage_media.media_root_dir%'
 
     AppVerk\GoogleCloudStorageMediaBundle\Doctrine\MediaManagerInterface: '@AppVerk\GoogleCloudStorageMediaBundle\Doctrine\MediaManager'
 
     AppVerk\GoogleCloudStorageMediaBundle\Form\DataTransformer\MediaTransformer:
         arguments:
-            $className: '%media.entities.media_class%'
+            $className: '%google_cloud_storage_media.entities.media_class%'

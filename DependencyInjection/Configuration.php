@@ -11,7 +11,7 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
 
-        $rootNode = $treeBuilder->root('media');
+        $rootNode = $treeBuilder->root('google_cloud_storage_media');
 
         $rootNode
             ->children()
