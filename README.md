@@ -6,7 +6,7 @@ Symfony Media Bundle. The bundle allow in easy way upload files. The bundle requ
 
 Require the bundle with composer:
 
-    $ composer require app-verk/media-bundle
+    $ composer require app-verk/google-cloud-storage-media-bundle
 
 Enable the bundle in the kernel:
 
