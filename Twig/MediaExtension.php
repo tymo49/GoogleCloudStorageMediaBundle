@@ -1,9 +1,9 @@
 <?php
 
-namespace AppVerk\MediaBundle\Twig;
+namespace AppVerk\GoogleCloudStorageMediaBundle\Twig;
 
-use AppVerk\MediaBundle\Entity\Media;
-use AppVerk\MediaBundle\Service\MediaProvider;
+use AppVerk\GoogleCloudStorageMediaBundle\Entity\Media;
+use AppVerk\GoogleCloudStorageMediaBundle\Service\MediaProvider;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 

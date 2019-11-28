@@ -1,6 +1,6 @@
 <?php
 
-namespace AppVerk\MediaBundle\Service;
+namespace AppVerk\GoogleCloudStorageMediaBundle\Service;
 
 class MediaValidation
 {

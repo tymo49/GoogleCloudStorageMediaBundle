@@ -1,4 +1,4 @@
-# MediaBundle
+# GoogleCloudStorageMediaBundle
 
 Symfony Media Bundle. The bundle allow in easy way upload files. The bundle required to working [dropzone.js](http://www.dropzonejs.com/) script.
 
@@ -17,7 +17,7 @@ Enable the bundle in the kernel:
     {
         $bundles = array(
             // ...
-            new AppVerk\MediaBundle\MediaBundle(),
+            new AppVerk\GoogleCloudStorageMediaBundle\GoogleCloudStorageMediaBundle(),
             // ...
         );
     }
@@ -28,7 +28,7 @@ Create your Media class:
     
     namespace AppBundle\Entity;
     
-    use AppVerk\MediaBundle\Entity\Media as BaseMedia;
+    use AppVerk\GoogleCloudStorageMediaBundle\Entity\Media as BaseMedia;
     use Doctrine\ORM\Mapping as ORM;
     
     /**
@@ -44,7 +44,7 @@ Add to config.yml:
     twig:
         form:
             resources:
-                - 'MediaBundle:form:fields.html.twig'
+                - 'GoogleCloudStorageMediaBundle:form:fields.html.twig'
                 
     media:
         entities:
@@ -54,7 +54,7 @@ Add to config.yml:
 Add to routing.yml:
 
     media:
-        resource: '@MediaBundle/Controller/'
+        resource: '@GoogleCloudStorageMediaBundle/Controller/'
         type: annotation
                 
 Add these libs into your admin panel:
@@ -74,7 +74,7 @@ Update your database schema:
     <?php
     
     use Symfony\Component\Form\AbstractType;
-    use AppVerk\MediaBundle\Form\Type\MediaType;
+    use AppVerk\GoogleCloudStorageMediaBundle\Form\Type\MediaType;
     use Symfony\Component\Form\FormBuilderInterface;
     
     class Post extends AbstractType

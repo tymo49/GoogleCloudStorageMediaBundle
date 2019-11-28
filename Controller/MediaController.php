@@ -1,11 +1,10 @@
 <?php
 
-namespace AppVerk\MediaBundle\Controller;
+namespace AppVerk\GoogleCloudStorageMediaBundle\Controller;
 
-use AppVerk\MediaBundle\Doctrine\MediaManager;
-use AppVerk\MediaBundle\Service\MediaUploader;
+use AppVerk\GoogleCloudStorageMediaBundle\Doctrine\MediaManager;
+use AppVerk\GoogleCloudStorageMediaBundle\Service\MediaUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,8 +30,8 @@ class MediaController extends AbstractController
         $file = $request->files->get('file');
         if ($file instanceof UploadedFile) {
             try {
-                list($fileName, $filePath) = $mediaUploader->upload($file, $group);
-                $media = $mediaManager->createMedia($file, $fileName, $filePath);
+                list($fileName, $size) = $mediaUploader->upload($file, $group);
+                $media = $mediaManager->createMedia($file, $fileName, $size);
 
                 $output['fileName'] = $media->getFileName();
                 $output['id'] = $media->getId();

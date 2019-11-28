@@ -1,6 +1,6 @@
 <?php
 
-namespace AppVerk\MediaBundle\Form\DataTransformer;
+namespace AppVerk\GoogleCloudStorageMediaBundle\Form\DataTransformer;
 
 use AppVerk\Components\Doctrine\EntityInterface;
 use Doctrine\Common\Persistence\ObjectManager;

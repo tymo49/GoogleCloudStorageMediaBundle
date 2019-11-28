@@ -1,9 +1,8 @@
 <?php
 
-namespace AppVerk\MediaBundle\Entity;
+namespace AppVerk\GoogleCloudStorageMediaBundle\Entity;
 
 use AppVerk\Components\Doctrine\EntityInterface;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\MappedSuperclass()

@@ -1,6 +1,6 @@
 <?php
 
-namespace AppVerk\MediaBundle\DependencyInjection;
+namespace AppVerk\GoogleCloudStorageMediaBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -30,6 +30,12 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->scalarNode('media_web_path')
                     ->defaultValue('/uploads/media')
+            ->end()
+            ->scalarNode('media_gcs_project_id')
+            ->defaultValue(123)
+            ->end()
+            ->scalarNode('media_gcs_bucket_id')
+            ->defaultValue('my_bucket')
                 ->end()
                 ->arrayNode('allowed_mime_types')
                     ->scalarPrototype()

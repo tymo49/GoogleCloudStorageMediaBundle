@@ -1,6 +1,6 @@
 <?php
 
-namespace AppVerk\MediaBundle\Service;
+namespace AppVerk\GoogleCloudStorageMediaBundle\Service;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -9,11 +9,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MediaUploader
 {
-    /**
-     * @var string
-     */
-    private $targetDirectory;
-
     /**
      * @var MediaValidation
      */
@@ -24,43 +19,54 @@ class MediaUploader
      */
     private $translator;
 
+    /** @var Storage */
+    private $storage;
+
     /**
      * MediaUploader constructor.
      *
-     * @param string $targetDirectory
-     * @param MediaValidation $mediaValidation
+     * @param MediaValidation     $mediaValidation
+     * @param TranslatorInterface $translator
+     * @param Storage             $storage
      */
     public function __construct(
-        string $targetDirectory,
         MediaValidation $mediaValidation,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        Storage $storage
     ) {
-        $this->targetDirectory = $targetDirectory;
         $this->mediaValidation = $mediaValidation;
         $this->translator = $translator;
+        $this->storage = $storage;
     }
 
     /**
      * @param UploadedFile $file
-     * @param null|string $groupName
+     * @param null|string  $groupName
      *
-     * @return string
+     * @return array
      */
-    public function upload(UploadedFile $file, ?string $groupName = null)
+    public function upload(UploadedFile $file, ?string $groupName = null): array
     {
         $this->validate($file, $groupName);
         $this->validateSize($file, $groupName);
 
-        $fileName = md5(uniqid()).'.'.$file->guessExtension();
+        $object = $this->storage->bucket()
+            ->upload(
+                $file,
+                [
+                    'metadata' => ['contentType' => $file->getMimeType()],
+                    'predefinedAcl' => 'publicRead',
+                ]
+            );
 
-        $file->move($this->targetDirectory, $fileName);
+        $fileData = $object->info();
 
-        return [$fileName, $this->targetDirectory];
+        return [$fileData['mediaLink'], $fileData['size']];
     }
 
     /**
      * @param UploadedFile $file
-     * @param null|string $groupName
+     * @param string|null  $groupName
      */
     private function validate(UploadedFile $file, ?string $groupName = null): void
     {
@@ -85,7 +91,11 @@ class MediaUploader
         }
     }
 
-    private function validateSize(UploadedFile $file, ?string $groupName = null)
+    /**
+     * @param UploadedFile $file
+     * @param string|null  $groupName
+     */
+    private function validateSize(UploadedFile $file, ?string $groupName = null): void
     {
         $sizes = $this->mediaValidation->getGroupSizes($groupName);
         if (empty($sizes)) {
@@ -104,8 +114,8 @@ class MediaUploader
                 $this->translator->trans(
                     'media.validation.image_dimension',
                     [
-                        '%max_width%'  => $maxWidth,
-                        '%min_width%'  => $minWidth,
+                        '%max_width%' => $maxWidth,
+                        '%min_width%' => $minWidth,
                         '%max_height%' => $maxHeight,
                         '%min_height%' => $minHeight,
                     ]

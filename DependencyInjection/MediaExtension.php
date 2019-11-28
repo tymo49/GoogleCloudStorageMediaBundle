@@ -1,6 +1,6 @@
 <?php
 
-namespace AppVerk\MediaBundle\DependencyInjection;
+namespace AppVerk\GoogleCloudStorageMediaBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -21,6 +21,8 @@ class MediaExtension extends Extension
         $container->setParameter('media.max_file_size', $config['max_file_size']);
         $container->setParameter('media.media_web_path', $config['media_web_path']);
         $container->setParameter('media.media_root_dir', $config['media_root_dir']);
+        $container->setParameter('media.gcs.project_id', $config['media_gcs_project_id']);
+        $container->setParameter('media.gcs.bucket_id', $config['media_gcs_bucket_id']);
         $container->setParameter('media.allowed_mime_types', $config['allowed_mime_types']);
         $container->setParameter('media.groups', $config['groups']);
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace AppVerk\MediaBundle\Service;
+namespace AppVerk\GoogleCloudStorageMediaBundle\Service;
 
-use AppVerk\MediaBundle\Entity\Media;
+use AppVerk\GoogleCloudStorageMediaBundle\Entity\Media;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
