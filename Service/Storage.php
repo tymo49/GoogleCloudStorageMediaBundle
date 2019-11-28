@@ -16,10 +16,10 @@ class Storage
     /**
      * Storage constructor.
      *
-     * @param int    $projectId
+     * @param string $projectId
      * @param string $bucketId
      */
-    public function __construct(int $projectId, string $bucketId)
+    public function __construct(string $projectId, string $bucketId)
     {
         $this->bucketId = $bucketId;
         $this->client = new StorageClient(
