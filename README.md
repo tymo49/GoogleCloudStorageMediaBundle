@@ -49,6 +49,9 @@ Add to config.yml:
     media:
         entities:
             media_class: AppBundle\Entity\Media
+        gcs:
+            project_id: 123
+            bucket_id: my_bucket
         allowed_mime_types: ["image/jpeg", "image/jpg", "image/png", "image/gif", "application/pdf"]
         
 Add to routing.yml:
