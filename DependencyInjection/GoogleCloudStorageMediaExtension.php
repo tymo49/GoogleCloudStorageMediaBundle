@@ -21,8 +21,8 @@ class GoogleCloudStorageMediaExtension extends Extension
         $container->setParameter('google_cloud_storage_media.max_file_size', $config['max_file_size']);
         $container->setParameter('google_cloud_storage_media.media_web_path', $config['media_web_path']);
         $container->setParameter('google_cloud_storage_media.media_root_dir', $config['media_root_dir']);
-        $container->setParameter('google_cloud_storage_media.gcs.project_id', $config['media_gcs_project_id']);
-        $container->setParameter('google_cloud_storage_media.gcs.bucket_id', $config['media_gcs_bucket_id']);
+        $container->setParameter('google_cloud_storage_media.gcs.project_id', $config['gcs']['project_id']);
+        $container->setParameter('google_cloud_storage_media.gcs.bucket_id', $config['gcs']['bucket_id']);
         $container->setParameter('google_cloud_storage_media.allowed_mime_types', $config['allowed_mime_types']);
         $container->setParameter('google_cloud_storage_media.groups', $config['groups']);
 
