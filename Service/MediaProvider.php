@@ -13,21 +13,14 @@ class MediaProvider
      */
     private $request;
 
-    /**
-     * @var string
-     */
-    private $targetDirectory;
-
-
-    public function __construct(RequestStack $requestStack, string $targetDirectory)
+    public function __construct(RequestStack $requestStack)
     {
-        $this->targetDirectory = $targetDirectory;
         $this->request = $requestStack->getCurrentRequest();
     }
 
     public function getUrl(Media $media): string
     {
-        return $this->targetDirectory . DIRECTORY_SEPARATOR . $media->getFileName();
+        return $media->getFileName();
     }
 
     public function getPublicUrl(Media $media): string

@@ -12,19 +12,11 @@ services:
         arguments:
             $className: '%google_cloud_storage_media.entities.media_class%'
 
-    AppVerk\GoogleCloudStorageMediaBundle\Service\MediaProvider:
-        arguments:
-            $targetDirectory: '%google_cloud_storage_media.media_web_path%'
-
     AppVerk\GoogleCloudStorageMediaBundle\Service\MediaValidation:
         arguments: ['%google_cloud_storage_media.max_file_size%', '%google_cloud_storage_media.allowed_mime_types%', '%google_cloud_storage_media.groups%']
 
     AppVerk\GoogleCloudStorageMediaBundle\Service\Storage:
         arguments: ['%google_cloud_storage_media.gcs.project_id%', '%google_cloud_storage_media.gcs.bucket_id%']
-
-    AppVerk\GoogleCloudStorageMediaBundle\Service\MediaUploader:
-        arguments:
-            $targetDirectory: '%google_cloud_storage_media.media_root_dir%'
 
     AppVerk\GoogleCloudStorageMediaBundle\Doctrine\MediaManagerInterface: '@AppVerk\GoogleCloudStorageMediaBundle\Doctrine\MediaManager'
 
