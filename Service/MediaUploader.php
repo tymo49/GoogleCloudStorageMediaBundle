@@ -54,6 +54,7 @@ class MediaUploader
             ->upload(
                 $file,
                 [
+                    'name' => md5(uniqid()).'.'.$file->guessExtension(),
                     'metadata' => ['contentType' => $file->getMimeType()],
                     'predefinedAcl' => 'publicRead',
                 ]
