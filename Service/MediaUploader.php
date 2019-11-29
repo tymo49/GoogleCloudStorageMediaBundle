@@ -50,9 +50,10 @@ class MediaUploader
         $this->validate($file, $groupName);
         $this->validateSize($file, $groupName);
 
+        $fileObject = fopen($file->getRealPath(), 'r');
         $object = $this->storage->bucket()
             ->upload(
-                $file,
+                $fileObject,
                 [
                     'name' => md5(uniqid()).'.'.$file->guessExtension(),
                     'metadata' => ['contentType' => $file->getMimeType()],
