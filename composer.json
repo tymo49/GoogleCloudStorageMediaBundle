@@ -17,7 +17,7 @@
     "require": {
         "php": "^7.0",
         "app-verk/components": "^2.0",
-        "google/cloud-storage": "1.16.0",
+        "google/cloud-storage": "^1.16",
         "symfony/framework-bundle": "4.2.* || 4.4.*",
         "symfony/form": "4.2.* || 4.4.*",
         "stof/doctrine-extensions-bundle": "^1.3",
