@@ -16,7 +16,7 @@ services:
         arguments: ['%google_cloud_storage_media.max_file_size%', '%google_cloud_storage_media.allowed_mime_types%', '%google_cloud_storage_media.groups%']
 
     AppVerk\GoogleCloudStorageMediaBundle\Service\Storage:
-        arguments: ['%google_cloud_storage_media.gcs.project_id%', '%google_cloud_storage_media.gcs.bucket_id%']
+        arguments: ['%google_cloud_storage_media.gcs.project_id%', '%google_cloud_storage_media.gcs.bucket_id%', '%google_cloud_storage_media.gcs.key_file_path%']
 
     AppVerk\GoogleCloudStorageMediaBundle\Doctrine\MediaManagerInterface: '@AppVerk\GoogleCloudStorageMediaBundle\Doctrine\MediaManager'
 
