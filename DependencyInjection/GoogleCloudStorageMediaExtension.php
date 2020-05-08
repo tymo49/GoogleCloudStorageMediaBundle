@@ -23,6 +23,7 @@ class GoogleCloudStorageMediaExtension extends Extension
         $container->setParameter('google_cloud_storage_media.media_root_dir', $config['media_root_dir']);
         $container->setParameter('google_cloud_storage_media.gcs.project_id', $config['gcs']['project_id']);
         $container->setParameter('google_cloud_storage_media.gcs.bucket_id', $config['gcs']['bucket_id']);
+        $container->setParameter('google_cloud_storage_media.gcs.key_file_path', $config['gcs']['key_file_path']);
         $container->setParameter('google_cloud_storage_media.allowed_mime_types', $config['allowed_mime_types']);
         $container->setParameter('google_cloud_storage_media.groups', $config['groups']);
 

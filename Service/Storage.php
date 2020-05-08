@@ -18,13 +18,15 @@ class Storage
      *
      * @param string $projectId
      * @param string $bucketId
+     * @param string $keyFilePath
      */
-    public function __construct(string $projectId, string $bucketId)
+    public function __construct(string $projectId, string $bucketId, string $keyFilePath)
     {
         $this->bucketId = $bucketId;
         $this->client = new StorageClient(
             [
-                'projectId' => $projectId,
+                'projectId'   => $projectId,
+                'keyFilePath' => $keyFilePath,
             ]
         );
     }
