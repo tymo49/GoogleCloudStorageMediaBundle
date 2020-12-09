@@ -51,12 +51,14 @@ class MediaUploader
         $this->validateSize($file, $groupName);
 
         $fileObject = fopen($file->getRealPath(), 'r');
+        $fileMime = !empty($file->getClientMimeType()) ? $file->getClientMimeType() : $file->getMimeType();
+       
         $object = $this->storage->bucket()
             ->upload(
                 $fileObject,
                 [
                     'name' => md5(uniqid()).'.'.$file->guessExtension(),
-                    'metadata' => ['contentType' => $file->getMimeType()],
+                    'metadata' => ['contentType' => $fileMime],
                     'predefinedAcl' => 'publicRead',
                 ]
             );
