@@ -15,7 +15,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.0",
+        "php": "^7.0||^8.0",
         "app-verk/components": "^2.0",
         "google/cloud-storage": "^1.16",
         "symfony/framework-bundle": "4.2.* || 4.4.*",
