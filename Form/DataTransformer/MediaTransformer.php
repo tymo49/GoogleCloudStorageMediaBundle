@@ -3,25 +3,25 @@
 namespace AppVerk\GoogleCloudStorageMediaBundle\Form\DataTransformer;
 
 use AppVerk\Components\Doctrine\EntityInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class MediaTransformer implements DataTransformerInterface
 {
     /**
-     * @var ObjectManager
+     * @var EntityManagerInterface
      */
-    private $objectManager;
+    private $entityManager;
 
     /**
      * @var string
      */
     private $className;
 
-    public function __construct(ObjectManager $objectManager, string $className)
+    public function __construct(EntityManagerInterface $entityManager, string $className)
     {
-        $this->objectManager = $objectManager;
+        $this->entityManager = $entityManager;
         $this->className = $className;
     }
 
@@ -40,7 +40,7 @@ class MediaTransformer implements DataTransformerInterface
             return null;
         }
 
-        $entity = $this->objectManager
+        $entity = $this->entityManager
             ->getRepository($this->className)
             ->find($value);
 
