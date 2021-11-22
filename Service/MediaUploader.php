@@ -70,6 +70,35 @@ class MediaUploader
 
     /**
      * @param UploadedFile $file
+     * @param null|string  $groupName
+     *
+     * @return array
+     */
+    public function uploadWithName(UploadedFile $file, ?string $groupName = null): array
+    {
+        $this->validate($file, $groupName);
+        $this->validateSize($file, $groupName);
+
+        $fileObject = fopen($file->getRealPath(), 'r');
+        $fileMime = !empty($file->getClientMimeType()) ? $file->getClientMimeType() : $file->getMimeType();
+
+        $object = $this->storage->bucket()
+            ->upload(
+                $fileObject,
+                [
+                    'name' => preg_replace('/\s/', '',  $file->getClientOriginalName()),
+                    'metadata' => ['contentType' => $fileMime, 'filename' => $file->getClientOriginalName() ],
+                    'predefinedAcl' => 'publicRead',
+                ]
+            );
+
+        $fileData = $object->info();
+
+        return [$fileData['mediaLink'], $fileData['size']];
+    }
+
+    /**
+     * @param UploadedFile $file
      * @param string|null  $groupName
      */
     private function validate(UploadedFile $file, ?string $groupName = null): void
