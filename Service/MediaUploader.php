@@ -2,6 +2,7 @@
 
 namespace AppVerk\GoogleCloudStorageMediaBundle\Service;
 
+use AppVerk\GoogleCloudStorageMediaBundle\Exception\InvalidSizeException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -113,7 +114,7 @@ class MediaUploader
         $maxSize = $this->mediaValidation->getMaxSize($groupName);
         if ($maxSize) {
             if (!($fileSize = $file->getClientSize())) {
-                throw new NotFoundHttpException();
+                throw new InvalidSizeException('', null, 404);
             }
 
             if ($fileSize > $maxSize) {

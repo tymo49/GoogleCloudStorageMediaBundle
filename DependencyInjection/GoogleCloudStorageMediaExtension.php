@@ -17,6 +17,10 @@ class GoogleCloudStorageMediaExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $container->setParameter('google_cloud_storage_media.date_strategy_format', $config['date_strategy_format']);
+        $container->setParameter('google_cloud_storage_media.namer', $config['namer']);
+        $container->setParameter('google_cloud_storage_media.filesystem', $config['filesystem']);
+        $container->setParameter('google_cloud_storage_media.filesystem_url_retriever', $config['filesystem_url_retriever']);
         $container->setParameter('google_cloud_storage_media.entities.media_class', $config['entities']['media_class']);
         $container->setParameter('google_cloud_storage_media.max_file_size', $config['max_file_size']);
         $container->setParameter('google_cloud_storage_media.media_web_path', $config['media_web_path']);

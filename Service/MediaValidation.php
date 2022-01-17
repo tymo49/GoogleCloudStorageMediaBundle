@@ -80,10 +80,16 @@ class MediaValidation
 
     public function getGroupSizes(?string $groupName = null): array
     {
+        if (!$groupName) {
+            return [];
+        }
+
         $group = $this->getGroup($groupName);
+
         if (!$group) {
             return [];
         }
+
         if (!isset($group['sizes'])) {
             return [];
         }

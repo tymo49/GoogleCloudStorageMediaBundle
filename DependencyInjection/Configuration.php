@@ -2,6 +2,7 @@
 
 namespace AppVerk\GoogleCloudStorageMediaBundle\DependencyInjection;
 
+use AppVerk\GoogleCloudStorageMediaBundle\Namer\DefaultNamer;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -9,9 +10,9 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('google_cloud_storage_media');
 
-        $rootNode = $treeBuilder->root('google_cloud_storage_media');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()
@@ -22,23 +23,32 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-            ->arrayNode('gcs')
-            ->children()
-            ->scalarNode('project_id')
-            ->cannotBeEmpty()
-            ->end()
-            ->end()
-            ->children()
-            ->scalarNode('bucket_id')
-            ->cannotBeEmpty()
-            ->end()
-            ->end()
-            ->children()
-            ->scalarNode('key_file_path')
-            ->cannotBeEmpty()
-            ->end()
-            ->end()
-            ->end()
+                ->arrayNode('gcs')
+                    ->children()
+                        ->scalarNode('project_id')
+                            ->cannotBeEmpty()
+                        ->end()
+                    ->end()
+                    ->children()
+                        ->scalarNode('bucket_id')
+                            ->cannotBeEmpty()
+                        ->end()
+                    ->end()
+                    ->children()
+                        ->scalarNode('key_file_path')
+                            ->cannotBeEmpty()
+                        ->end()
+                    ->end()
+                ->end()
+                ->scalarNode('namer')
+                    ->defaultValue(DefaultNamer::class)
+                ->end()
+                ->scalarNode('filesystem')
+                    ->cannotBeEmpty()
+                ->end()
+                ->scalarNode('filesystem_url_retriever')
+                    ->cannotBeEmpty()
+                ->end()
                 ->scalarNode('max_file_size')
                     ->defaultValue(5242880)
                 ->end()
@@ -47,6 +57,9 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->scalarNode('media_web_path')
                     ->defaultValue('/uploads/media')
+                ->end()
+                ->scalarNode('date_strategy_format')
+                    ->defaultValue('Y/m/d/')
                 ->end()
                 ->arrayNode('allowed_mime_types')
                     ->scalarPrototype()
