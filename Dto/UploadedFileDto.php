@@ -6,6 +6,8 @@ class UploadedFileDto {
 
     private ?string $name;
 
+    private ?string $fileName;
+
     private ?string $url;
 
     private ?string $mimetype;
@@ -14,11 +16,13 @@ class UploadedFileDto {
 
     public function __construct(
         ?string $name,
+        ?string $fileName,
         ?string $url,
         ?string $mimetype,
         ?int $size
     ) {
         $this->name = $name;
+        $this->fileName = $fileName;
         $this->url = $url;
         $this->mimetype = $mimetype;
         $this->size = $size;
@@ -27,6 +31,11 @@ class UploadedFileDto {
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    public function getFileName(): ?string
+    {
+        return $this->fileName;
     }
 
     public function getUrl(): ?string

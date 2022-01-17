@@ -8,6 +8,6 @@ class InvoiceNamer extends AbstractNamer
 {
     public function generate(string $filename, string $extension): string
     {
-        return $this->strategy->generate($this->sanitize($filename), $extension, 'inv_', uniqid('_'));
+        return $this->strategy->generate($this->sanitize($filename, $extension), $extension, 'inv_', uniqid('_'));
     }
 }

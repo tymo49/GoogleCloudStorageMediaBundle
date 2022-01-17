@@ -55,6 +55,9 @@ class StorageService
             $file->getExtension() ?: $file->guessExtension()
         );
 
+        $splitName = explode('/', $filename);
+        $friendlyName = end($splitName);
+
         try {
             $this->filesystem->write($filename, $file->getContent());
             $url = $this->urlRetriever->getUrl($filename);
@@ -63,6 +66,7 @@ class StorageService
         }
 
         return new UploadedFileDto(
+            $friendlyName,
             $filename,
             $url,
             $file->getMimeType(),

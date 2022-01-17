@@ -8,6 +8,6 @@ class DefaultNamer extends AbstractNamer
 {
     public function generate(string $filename, string $extension): string
     {
-        return $this->strategy->generate($this->sanitize($filename), $extension, '', uniqid('_'));
+        return $this->strategy->generate($this->sanitize($filename, $extension), $extension, '', uniqid('_'));
     }
 }

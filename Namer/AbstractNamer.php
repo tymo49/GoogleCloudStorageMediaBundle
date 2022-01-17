@@ -17,11 +17,14 @@ abstract class AbstractNamer
 
     public function generate(string $filename, string $extension): string
     {
-        return $this->strategy->generate($this->sanitize($filename), $extension);
+        return $this->strategy->generate($this->sanitize($filename, $extension), $extension);
     }
 
-    protected function sanitize(string $filename): string
+    protected function sanitize(string $filename, string $extension = ''): string
     {
-        return preg_replace(['/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'], ['_', '.', ''], $filename);
+        $newName = str_ireplace('.' . $extension, '', $filename);
+        $newName = preg_replace(['/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'], ['_', '.', ''], $newName);
+
+        return $newName;
     }
 }

@@ -29,6 +29,13 @@ abstract class Media implements EntityInterface
     /**
      * @var string
      *
+     * @ORM\Column(type="text", nullable=true, unique=true)
+     */
+    private $url;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $fileName;
@@ -47,81 +54,73 @@ abstract class Media implements EntityInterface
      */
     private $size;
 
-
     public function __toString()
     {
-        return (string)$this->getName();
+        return $this->getName();
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getFileName()
+    public function getFileName(): string
     {
         return $this->fileName;
     }
 
-    /**
-     * @param string $fileName
-     */
-    public function setFileName($fileName)
+    public function setFileName(string $fileName): self
     {
         $this->fileName = $fileName;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getSize()
+    public function getSize(): int
     {
         return $this->size;
     }
 
-    /**
-     * @param int $size
-     */
-    public function setSize($size)
+    public function setSize(int $size): self
     {
         $this->size = $size;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getMimeType()
+    public function getMimeType(): string
     {
         return $this->mimeType;
     }
 
-    /**
-     * @param string $mimeType
-     */
-    public function setMimeType($mimeType)
+    public function setMimeType(string $mimeType): self
     {
         $this->mimeType = $mimeType;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(?string $url): self
+    {
+        $this->url = $url;
+
+        return $this;
     }
 }
