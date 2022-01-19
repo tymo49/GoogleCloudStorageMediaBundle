@@ -9,6 +9,7 @@ use AppVerk\GoogleCloudStorageMediaBundle\Service\v2\StorageService;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class AddStorageServiceMappingPass implements CompilerPassInterface
 {
@@ -31,5 +32,6 @@ class AddStorageServiceMappingPass implements CompilerPassInterface
         $storageDefinition->addArgument(new Reference($filesystemId));
         $storageDefinition->addArgument(new Reference('translator'));
         $storageDefinition->addArgument(new Reference($urlRetriever));
+        $storageDefinition->addArgument(new Reference(EventDispatcherInterface::class));
     }
 }

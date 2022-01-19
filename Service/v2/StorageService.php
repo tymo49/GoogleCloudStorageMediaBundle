@@ -15,7 +15,7 @@ use AppVerk\GoogleCloudStorageMediaBundle\Namer\NamerInterface;
 use AppVerk\GoogleCloudStorageMediaBundle\Service\MediaValidation;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
