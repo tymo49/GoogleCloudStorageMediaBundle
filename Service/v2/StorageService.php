@@ -4,25 +4,26 @@ declare(strict_types = 1);
 
 namespace AppVerk\GoogleCloudStorageMediaBundle\Service\v2;
 
-use AppVerk\GoogleCloudStorageMediaBundle\Dto\UploadedFileDto;
+use AppVerk\GoogleCloudStorageMediaBundle\Event\FileWasAdded;
+use AppVerk\GoogleCloudStorageMediaBundle\Event\FileWasRemoved;
+use AppVerk\GoogleCloudStorageMediaBundle\Model\UploadFile;
 use AppVerk\GoogleCloudStorageMediaBundle\Exception\FilesystemException as AppFileSystemException;
 use AppVerk\GoogleCloudStorageMediaBundle\Exception\InvalidMimetypeException;
 use AppVerk\GoogleCloudStorageMediaBundle\Exception\InvalidSizeException;
 use AppVerk\GoogleCloudStorageMediaBundle\Flysystem\Retriever\UrlRetrieverInterface;
-use AppVerk\GoogleCloudStorageMediaBundle\Namer\AbstractNamer;
+use AppVerk\GoogleCloudStorageMediaBundle\Namer\NamerInterface;
 use AppVerk\GoogleCloudStorageMediaBundle\Service\MediaValidation;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class StorageService
 {
     private FilesystemOperator $filesystem;
 
-    private AbstractNamer $namer;
+    private NamerInterface $namer;
 
     private TranslatorInterface $translator;
 
@@ -30,12 +31,15 @@ class StorageService
 
     private UrlRetrieverInterface $urlRetriever;
 
+    private EventDispatcherInterface $eventDispatcher;
+
     public function __construct(
         MediaValidation $mediaValidation,
-        AbstractNamer $namer,
+        NamerInterface $namer,
         FilesystemOperator $filesystem,
         TranslatorInterface $translator,
-        UrlRetrieverInterface $urlRetriever
+        UrlRetrieverInterface $urlRetriever,
+        EventDispatcherInterface $eventDispatcher
     )
     {
         $this->mediaValidation = $mediaValidation;
@@ -43,9 +47,10 @@ class StorageService
         $this->filesystem = $filesystem;
         $this->translator = $translator;
         $this->urlRetriever = $urlRetriever;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function save(UploadedFile $file, ?string $originalFilename = '', ?string $groupName = null): UploadedFileDto
+    public function save(UploadedFile $file, ?string $originalFilename = '', ?string $groupName = null): UploadFile
     {
         $this->validate($file, $groupName);
         $this->validateSize($file, $groupName);
@@ -65,13 +70,16 @@ class StorageService
             throw new AppFileSystemException($e->getMessage());
         }
 
-        return new UploadedFileDto(
+        $model = new UploadFile(
             $friendlyName,
             $filename,
             $url,
             $file->getMimeType(),
             $file->getSize()
         );
+        $this->eventDispatcher->dispatch(new FileWasAdded($model));
+
+        return $model;
     }
 
     public function sanitize(string $filename): string
@@ -84,6 +92,7 @@ class StorageService
         try {
             if (true === $this->filesystem->fileExists($filename)) {
                 $this->filesystem->delete($filename);
+                $this->eventDispatcher->dispatch(new FileWasRemoved($filename));
 
                 return true;
             }
@@ -110,7 +119,7 @@ class StorageService
         $maxSize = $this->mediaValidation->getMaxSize($groupName);
         if ($maxSize) {
             if (!($fileSize = $file->getSize())) {
-                throw new InvalidSizeException('', null, 404);
+                throw new InvalidSizeException('media.validation.file_not_found', null, 404);
             }
 
             if ($fileSize > $maxSize) {

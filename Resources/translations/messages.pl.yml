@@ -10,4 +10,5 @@ media:
     validation:
         image_type: Typ mime zdjęcia jest niepoprawny (%type%).
         image_size: Maksymalny rozmiar zdjęcia to %max_size% bajtów.
-        image_dimension: Wymiary zdjęcią są niepoprawne - wymagany jest rozmiar %min_width%x%min_height%
+        image_dimension: Wymiary zdjęcią są niepoprawne - wymagany jest rozmiar %min_width%x%min_height%.
+        file_not_found: Plik nie został wgrany poprawnie.

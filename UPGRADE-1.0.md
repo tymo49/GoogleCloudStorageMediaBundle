@@ -1,7 +1,7 @@
 Upgrade 0.x -> 1.x guide
 ---
 
-Starting from version 2.x this bundle uses [Flysystem](https://flysystem.thephpleague.com/v2/docs) 
+Starting from version 1.x this bundle uses [Flysystem](https://flysystem.thephpleague.com/v2/docs) 
 as filesystem abstraction underneath. In order to use this bundle please install and configure bundle accordingly.
 This bundle requires at least one filesystem to be created and configured.
 

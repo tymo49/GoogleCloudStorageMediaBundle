@@ -86,11 +86,7 @@ class MediaValidation
 
         $group = $this->getGroup($groupName);
 
-        if (!$group) {
-            return [];
-        }
-
-        if (!isset($group['sizes'])) {
+        if (!$group || !isset($group['sizes'])) {
             return [];
         }
 

@@ -53,7 +53,7 @@ class MediaUploader
 
         $fileObject = fopen($file->getRealPath(), 'r');
         $fileMime = !empty($file->getClientMimeType()) ? $file->getClientMimeType() : $file->getMimeType();
-       
+
         $object = $this->storage->bucket()
             ->upload(
                 $fileObject,
@@ -114,7 +114,7 @@ class MediaUploader
         $maxSize = $this->mediaValidation->getMaxSize($groupName);
         if ($maxSize) {
             if (!($fileSize = $file->getClientSize())) {
-                throw new InvalidSizeException('', null, 404);
+                throw new InvalidSizeException('media.validation.file_not_found', null, 404);
             }
 
             if ($fileSize > $maxSize) {

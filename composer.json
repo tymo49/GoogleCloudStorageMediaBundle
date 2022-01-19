@@ -20,6 +20,7 @@
         "league/flysystem-bundle": "^2.0",
         "google/cloud-storage": "^1.16",
         "symfony/framework-bundle": "^5.0",
+        "symfony/event-dispatcher": "^5.0",
         "symfony/http-kernel": "^5.0",
         "symfony/http-foundation": "^5.0",
         "symfony/translation": "^5.0",

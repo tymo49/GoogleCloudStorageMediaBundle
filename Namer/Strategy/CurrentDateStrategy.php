@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace AppVerk\GoogleCloudStorageMediaBundle\Namer\Strategy;
 
-class CurrentDateStrategy extends AbstractNamingStrategy
+class CurrentDateStrategy implements NamingStrategyInterface
 {
     private string $format;
 

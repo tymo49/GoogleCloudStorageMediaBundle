@@ -14,10 +14,14 @@ services:
 
     AppVerk\GoogleCloudStorageMediaBundle\Flysystem\Retriever\LocalObjectUrlRetriever: ~
 
+    AppVerk\GoogleCloudStorageMediaBundle\Flysystem\Retriever\UrlRetrieverInterface: '@AppVerk\GoogleCloudStorageMediaBundle\Flysystem\Retriever\LocalObjectUrlRetriever'
+
     AppVerk\GoogleCloudStorageMediaBundle\Flysystem\Retriever\GoogleObjectUrlRetriever:
         arguments: ['%google_cloud_storage_media.gcs.project_id%', '%google_cloud_storage_media.gcs.bucket_id%', '%google_cloud_storage_media.gcs.key_file_path%']
 
-    AppVerk\GoogleCloudStorageMediaBundle\Namer\Strategy\AbstractNamingStrategy: '@AppVerk\GoogleCloudStorageMediaBundle\Namer\Strategy\CurrentDateStrategy'
+    AppVerk\GoogleCloudStorageMediaBundle\Namer\Strategy\NamingStrategyInterface: '@AppVerk\GoogleCloudStorageMediaBundle\Namer\Strategy\CurrentDateStrategy'
+
+    AppVerk\GoogleCloudStorageMediaBundle\Namer\NamerInterface: '@AppVerk\GoogleCloudStorageMediaBundle\Namer\DefaultNamer'
 
     AppVerk\GoogleCloudStorageMediaBundle\Namer\DefaultNamer:
         arguments:
@@ -26,7 +30,7 @@ services:
     AppVerk\GoogleCloudStorageMediaBundle\Namer\InvoiceNamer:
         arguments:
             - '@AppVerk\GoogleCloudStorageMediaBundle\Namer\Strategy\CurrentDateStrategy'
-            
+
     AppVerk\GoogleCloudStorageMediaBundle\Doctrine\MediaManager:
         arguments:
             $className: '%google_cloud_storage_media.entities.media_class%'

@@ -165,7 +165,7 @@ google_cloud_storage_media:
         project_id: your-project-id
         bucket_id: your-bucket-id
         key_file_path: path-to-keyfile
-    namer: "AppVerk\\GoogleCloudStorageMediaBundle\\Namer\\DefaultNamer" # default
+    namer: "AppVerk\\GoogleCloudStorageMediaBundle\\Namer\\NamerInterface" # default
     filesystem: "default.storage" # use your storage name from flysystem here
     filesystem_url_retriever: 'AppVerk\GoogleCloudStorageMediaBundle\Flysystem\Retriever\GoogleObjectUrlRetriever' # configure url retriever for proper path storing
 ```

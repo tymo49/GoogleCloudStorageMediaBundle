@@ -4,13 +4,13 @@ declare(strict_types = 1);
 
 namespace AppVerk\GoogleCloudStorageMediaBundle\Namer;
 
-use AppVerk\GoogleCloudStorageMediaBundle\Namer\Strategy\AbstractNamingStrategy;
+use AppVerk\GoogleCloudStorageMediaBundle\Namer\Strategy\NamingStrategyInterface;
 
-abstract class AbstractNamer
+abstract class AbstractNamer implements NamerInterface
 {
-    protected AbstractNamingStrategy $strategy;
+    protected NamingStrategyInterface $strategy;
 
-    public function __construct(AbstractNamingStrategy $strategy)
+    public function __construct(NamingStrategyInterface $strategy)
     {
         $this->strategy = $strategy;
     }

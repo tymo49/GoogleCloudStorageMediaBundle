@@ -2,7 +2,7 @@
 
 namespace AppVerk\GoogleCloudStorageMediaBundle\DependencyInjection;
 
-use AppVerk\GoogleCloudStorageMediaBundle\Namer\DefaultNamer;
+use AppVerk\GoogleCloudStorageMediaBundle\Namer\NamerInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -41,7 +41,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->scalarNode('namer')
-                    ->defaultValue(DefaultNamer::class)
+                    ->defaultValue(NamerInterface::class)
                 ->end()
                 ->scalarNode('filesystem')
                     ->cannotBeEmpty()
