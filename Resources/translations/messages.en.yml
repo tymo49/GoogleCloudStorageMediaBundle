@@ -11,3 +11,4 @@ media:
         image_type: Image mime type (%type%) is not valid.
         image_size: Upload file can not be bigger than %max_size% bytes.
         image_dimension: Incorect dimensions. Width must be lower than %max_width% and greater than %min_width%. Height must be lower than %max_height% and greater than %min_height%
+        file_not_found: File was not uploaded correctly.

@@ -8,6 +8,29 @@ services:
         resource: '../../*'
         exclude: '../../{Entity,Repository,Tests}'
 
+    AppVerk\GoogleCloudStorageMediaBundle\Namer\Strategy\CurrentDateStrategy:
+        arguments:
+            - '%google_cloud_storage_media.date_strategy_format%'
+
+    AppVerk\GoogleCloudStorageMediaBundle\Flysystem\Retriever\LocalObjectUrlRetriever: ~
+
+    AppVerk\GoogleCloudStorageMediaBundle\Flysystem\Retriever\UrlRetrieverInterface: '@AppVerk\GoogleCloudStorageMediaBundle\Flysystem\Retriever\LocalObjectUrlRetriever'
+
+    AppVerk\GoogleCloudStorageMediaBundle\Flysystem\Retriever\GoogleObjectUrlRetriever:
+        arguments: ['%google_cloud_storage_media.gcs.project_id%', '%google_cloud_storage_media.gcs.bucket_id%', '%google_cloud_storage_media.gcs.key_file_path%']
+
+    AppVerk\GoogleCloudStorageMediaBundle\Namer\Strategy\NamingStrategyInterface: '@AppVerk\GoogleCloudStorageMediaBundle\Namer\Strategy\CurrentDateStrategy'
+
+    AppVerk\GoogleCloudStorageMediaBundle\Namer\NamerInterface: '@AppVerk\GoogleCloudStorageMediaBundle\Namer\DefaultNamer'
+
+    AppVerk\GoogleCloudStorageMediaBundle\Namer\DefaultNamer:
+        arguments:
+            - '@AppVerk\GoogleCloudStorageMediaBundle\Namer\Strategy\CurrentDateStrategy'
+
+    AppVerk\GoogleCloudStorageMediaBundle\Namer\InvoiceNamer:
+        arguments:
+            - '@AppVerk\GoogleCloudStorageMediaBundle\Namer\Strategy\CurrentDateStrategy'
+
     AppVerk\GoogleCloudStorageMediaBundle\Doctrine\MediaManager:
         arguments:
             $className: '%google_cloud_storage_media.entities.media_class%'
@@ -17,6 +40,9 @@ services:
 
     AppVerk\GoogleCloudStorageMediaBundle\Service\Storage:
         arguments: ['%google_cloud_storage_media.gcs.project_id%', '%google_cloud_storage_media.gcs.bucket_id%', '%google_cloud_storage_media.gcs.key_file_path%']
+
+    AppVerk\GoogleCloudStorageMediaBundle\Service\v2\StorageService:
+        autowire: false
 
     AppVerk\GoogleCloudStorageMediaBundle\Doctrine\MediaManagerInterface: '@AppVerk\GoogleCloudStorageMediaBundle\Doctrine\MediaManager'
 
