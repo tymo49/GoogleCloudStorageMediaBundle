@@ -87,6 +87,19 @@ class StorageService
         return preg_replace(['/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'], ['_', '.', ''], $filename);
     }
 
+    /**
+     * @return resource
+     */
+    public function stream(string $filename)
+    {
+        return $this->filesystem->readStream($filename);
+    }
+
+    public function read(string $filename): string
+    {
+        return $this->filesystem->read($filename);
+    }
+
     public function remove(string $filename): bool
     {
         try {
