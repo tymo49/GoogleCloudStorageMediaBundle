@@ -16,7 +16,7 @@
     "license": "MIT",
     "require": {
         "php": "7.2.* || 8.*",
-        "app-verk/components": "dev-master",
+        "app-verk/components": "^2.0 || dev-master",
         "league/flysystem-bundle": "^2.0",
         "google/cloud-storage": "^1.16",
         "symfony/framework-bundle": "^5.0",
