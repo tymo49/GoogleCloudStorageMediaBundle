@@ -21,17 +21,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class StorageService
 {
-    private FilesystemOperator $filesystem;
+    protected FilesystemOperator $filesystem;
 
-    private NamerInterface $namer;
+    protected NamerInterface $namer;
 
-    private TranslatorInterface $translator;
+    protected TranslatorInterface $translator;
 
-    private MediaValidation $mediaValidation;
+    protected MediaValidation $mediaValidation;
 
-    private UrlRetrieverInterface $urlRetriever;
+    protected UrlRetrieverInterface $urlRetriever;
 
-    private EventDispatcherInterface $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         MediaValidation $mediaValidation,
@@ -62,9 +62,10 @@ class StorageService
 
         $splitName = explode('/', $filename);
         $friendlyName = end($splitName);
+        $parts = explode('/', $filename);
 
         try {
-            $this->filesystem->write($filename, $file->getContent());
+            $this->filesystem->write(end($parts), $file->getContent());
             $url = $this->urlRetriever->getUrl($filename);
         } catch (FilesystemException $e) {
             throw new AppFileSystemException($e->getMessage());
@@ -120,7 +121,7 @@ class StorageService
      * @param UploadedFile $file
      * @param string|null  $groupName
      */
-    private function validate(UploadedFile $file, ?string $groupName = null): void
+    protected function validate(UploadedFile $file, ?string $groupName = null): void
     {
         $allowedMimeTypes = $this->mediaValidation->getAllowedMimeTypes($groupName);
         if (!empty($allowedMimeTypes) && !in_array($file->getMimeType(), $allowedMimeTypes)) {
@@ -147,7 +148,7 @@ class StorageService
      * @param UploadedFile $file
      * @param string|null  $groupName
      */
-    private function validateSize(UploadedFile $file, ?string $groupName = null): void
+    protected function validateSize(UploadedFile $file, ?string $groupName = null): void
     {
         $sizes = $this->mediaValidation->getGroupSizes($groupName);
         if (empty($sizes)) {
