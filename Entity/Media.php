@@ -17,42 +17,42 @@ abstract class Media implements EntityInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=100)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="text", nullable=true, unique=true)
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $url;
+    protected $url;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $fileName;
+    protected $fileName;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=100)
      */
-    private $mimeType;
+    protected $mimeType;
 
     /**
      * @var int
      *
      * @ORM\Column(type="integer")
      */
-    private $size;
+    protected $size;
 
     public function __toString()
     {
