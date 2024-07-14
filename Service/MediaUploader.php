@@ -9,18 +9,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MediaUploader
 {
-    /**
-     * @var MediaValidation
-     */
-    private $mediaValidation;
+    protected const GOOGLE_API_URL = 'https://storage.googleapis.com';
 
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /** @var Storage */
-    private $storage;
+    protected MediaValidation $mediaValidation;
+    protected TranslatorInterface $translator;
+    protected Storage $storage;
 
     /**
      * MediaUploader constructor.
@@ -45,19 +38,27 @@ class MediaUploader
      *
      * @return array
      */
-    public function upload(UploadedFile $file, ?string $groupName = null): array
+    public function upload(UploadedFile $file, ?string $groupName = null, ?string $filename = null, bool $nativeName = false): array
     {
         $this->validate($file, $groupName);
         $this->validateSize($file, $groupName);
+        $dir =  $this->getDir($groupName);
 
+        if(is_null($filename) && !$nativeName){
+            $filename = md5(uniqid()).'.'.$file->guessExtension();
+        }
+
+        if($nativeName && is_null($filename)) {
+            $filename = $file->getClientOriginalName();
+        }
         $fileObject = fopen($file->getRealPath(), 'r');
         $fileMime = !empty($file->getClientMimeType()) ? $file->getClientMimeType() : $file->getMimeType();
-       
+
         $object = $this->storage->bucket()
             ->upload(
                 $fileObject,
                 [
-                    'name' => md5(uniqid()).'.'.$file->guessExtension(),
+                    'name' => sprintf("%s%s",$dir,preg_replace('/\s/', '', $filename)),
                     'metadata' => ['contentType' => $fileMime],
                     'predefinedAcl' => 'publicRead',
                 ]
@@ -65,7 +66,7 @@ class MediaUploader
 
         $fileData = $object->info();
 
-        return [$fileData['mediaLink'], $fileData['size']];
+        return [$this->getUrl($fileData), $fileData['size']];
     }
 
     /**
@@ -78,6 +79,7 @@ class MediaUploader
     {
         $this->validate($file, $groupName);
         $this->validateSize($file, $groupName);
+        $dir =  $this->getDir($groupName);
 
         $fileObject = fopen($file->getRealPath(), 'r');
         $fileMime = !empty($file->getClientMimeType()) ? $file->getClientMimeType() : $file->getMimeType();
@@ -86,7 +88,7 @@ class MediaUploader
             ->upload(
                 $fileObject,
                 [
-                    'name' => preg_replace('/\s/', '',  $file->getClientOriginalName()),
+                    'name' => sprintf('%s%s',$dir, preg_replace('/\s/', '',  $file->getClientOriginalName())),
                     'metadata' => ['contentType' => $fileMime, 'filename' => $file->getClientOriginalName() ],
                     'predefinedAcl' => 'publicRead',
                 ]
@@ -94,14 +96,14 @@ class MediaUploader
 
         $fileData = $object->info();
 
-        return [$fileData['mediaLink'], $fileData['size']];
+        return [$this->getUrl($fileData), $fileData['size']];
     }
 
     /**
      * @param UploadedFile $file
      * @param string|null  $groupName
      */
-    private function validate(UploadedFile $file, ?string $groupName = null): void
+    protected function validate(UploadedFile $file, ?string $groupName = null): void
     {
         $allowedMimeTypes = $this->mediaValidation->getAllowedMimeTypes($groupName);
         if (!empty($allowedMimeTypes) && !in_array($file->getMimeType(), $allowedMimeTypes)) {
@@ -128,7 +130,7 @@ class MediaUploader
      * @param UploadedFile $file
      * @param string|null  $groupName
      */
-    private function validateSize(UploadedFile $file, ?string $groupName = null): void
+    protected function validateSize(UploadedFile $file, ?string $groupName = null): void
     {
         $sizes = $this->mediaValidation->getGroupSizes($groupName);
         if (empty($sizes)) {
@@ -155,5 +157,64 @@ class MediaUploader
                 )
             );
         }
+    }
+
+    protected function getDir(?string $groupName = null): string
+    {
+        $dir = '';
+        if(!is_null($groupName)){
+            $dir = $this->mediaValidation->getDir($groupName);
+        }
+
+        return $dir;
+    }
+
+    protected function getUrl(array $info): string
+    {
+        return implode('/', [self::GOOGLE_API_URL, $info['bucket'], $info['name']]);
+    }
+
+    public function getUrlFromData(string $name, string $group): string
+    {
+        $fileName = $this->getFileNameWithContextDir($name, $group);
+        return implode('/', [self::GOOGLE_API_URL, $this->storage->getBucketId(), $fileName]);
+    }
+
+    public function moveFile(string $oldFileName, string $newFileName): ?string{
+
+        if(!$this->storage->bucket()->object($oldFileName)->exists()) {
+            return null;
+        }
+
+        $oldObject = $this->storage->bucket()->object($oldFileName);
+        $newObject = $oldObject->copy($this->storage->bucket(), ['name' => $newFileName]);
+        $fileData = $newObject->info();
+        $oldObject->delete();
+
+        return $this->getUrl($fileData);
+    }
+
+    public function getFileNameWithContextDir(string $fileName, string $groupName): string
+    {
+        $dir = $this->getDir($groupName);
+
+        return sprintf('%s%s', $dir, $fileName);
+    }
+
+    public function deleteFile(string $fileName): void
+    {
+        $object = $this->storage->bucket()->object($fileName);
+        $object->delete();
+    }
+
+    public function getFileName(string $fileUrl): string
+    {
+        $fileUlrArray = explode('/', urldecode(parse_url($fileUrl, PHP_URL_PATH)));
+        $fileUlrArray = array_slice($fileUlrArray, 2);
+        if(count($fileUlrArray) === 7){
+
+            $fileUlrArray = array_slice($fileUlrArray, 5);
+        }
+        return implode('/',$fileUlrArray);
     }
 }
