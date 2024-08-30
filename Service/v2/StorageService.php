@@ -162,7 +162,16 @@ class StorageService
         $minHeight = $sizes['min_height'];
         $maxHeight = $sizes['max_height'];
 
-        if ($imageWidth < $minWidth || $imageWidth > $maxWidth || $imageHeight < $minHeight || $imageHeight > $maxHeight) {
+        $minProportion = $sizes['min_width'] / $sizes['min_height'];
+        $maxProportion = $sizes['max_width'] / $sizes['max_height'];
+        $imageProportion = $imageWidth / $imageHeight;
+
+        if (($imageWidth < $minWidth || $imageWidth > $maxWidth || $imageHeight < $minHeight || $imageHeight > $maxHeight)) {
+
+            if($minProportion === $maxProportion && $minProportion === $imageProportion){
+                return;
+            }
+
             throw new InvalidSizeException(
                 $this->translator->trans(
                     'media.validation.image_dimension',
