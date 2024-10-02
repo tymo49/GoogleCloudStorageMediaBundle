@@ -60,6 +60,7 @@ class Configuration implements ConfigurationInterface
                             ->arrayNode('allowed_mime_types')
                                 ->prototype('scalar')->end()
                             ->end()
+                            ->scalarNode('dir')->defaultValue('')->end()
                             ->arrayNode('sizes')
                                 ->children()
                                     ->scalarNode('min_width')->defaultValue(0)->end()

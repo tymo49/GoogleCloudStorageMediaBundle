@@ -90,4 +90,17 @@ class MediaValidation
 
         return $group['sizes'];
     }
+
+    public function getDir(?string $groupName = null): string
+    {
+        $group = $this->getGroup($groupName);
+        if (!$group) {
+            return '';
+        }
+        if (!isset($group['dir'])) {
+            return '';
+        }
+
+        return $group['dir'];
+    }
 }
