@@ -9,9 +9,13 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-
-        $rootNode = $treeBuilder->root('google_cloud_storage_media');
+        $treeBuilder = new TreeBuilder('google_cloud_storage_media');
+        
+        if (method_exists($treeBuilder, 'getRootNode')) {
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            $rootNode = $treeBuilder->root('google_cloud_storage_media', 'array');
+        }
 
         $rootNode
             ->children()
